@@ -8,3 +8,6 @@ const PORT = 3000;
 
 // define a simple route 
 
+app.get('/',(req, res)=>{
+
+})
