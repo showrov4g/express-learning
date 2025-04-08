@@ -13,6 +13,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/showrov4g/node.js-learning/issues"
   },
