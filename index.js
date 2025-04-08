@@ -9,5 +9,10 @@ const PORT = 3000;
 // define a simple route 
 
 app.get('/',(req, res)=>{
+    res.send("hello express")
+})
 
+
+app.listen(PORT, ()=>{
+    console.log(`Server is running on PORT ${PORT}`)
 })
