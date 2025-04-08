@@ -9,7 +9,7 @@ const PORT = 3000;
 // define a simple route 
 
 app.get('/',(req, res)=>{
-    res.send("hello express")
+    res.send("hello ghosh")
 })
 
 
