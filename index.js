@@ -1,5 +1,5 @@
 import express from "express";
-import { userLogin, userSignup } from "./controller.js";
+import router from "./route.js";
 
 
 const app = express();
@@ -12,8 +12,23 @@ app.get('/', (req, res) => {
     res.send("hello ghosh")
 })
 
-app.get('/user/login',userLogin);
-app.get('/user/signup',userSignup);
+app.use('/user', router);
+
+
+app.post("/users",express.json(), (req,res)=>{
+    const {name, email} = req.body;
+    res.json({
+        message: `User ${name} and email ${email} created successfully`
+    })
+})
+
+app.put("/users/:id", express.json(), (req,res)=>{
+    const userId = req.params.id;
+    const {name, email} = req.body;
+    res.json({
+        message: `user ${userId} updated to ${name} and email ${email}`
+    })
+})
 
 
 
