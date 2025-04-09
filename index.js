@@ -20,6 +20,20 @@ app.get('/contact',(req, res)=>{
     res.send("this is contact api routes")
 })
 
+// making a dynamic routes 
+
+app.get('/user/:username', (req,res)=>{
+    const username = req.params.username;
+    res.send(`Welcome mr: ${username}`)
+})
+
+
+
+
+
+
+
+// ===============
 app.listen(PORT, ()=>{
     console.log(`Server is running on PORT ${PORT}`)
 })
