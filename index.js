@@ -1,4 +1,5 @@
 import express from "express";
+import { userLogin, userSignup } from "./controller.js";
 
 
 const app = express();
@@ -11,8 +12,10 @@ app.get('/', (req, res) => {
     res.send("hello ghosh")
 })
 
+app.get('/user/login',userLogin);
+app.get('/user/signup',userSignup);
 
-/
+
 
 
 
