@@ -27,6 +27,11 @@ app.get('/user/:username', (req,res)=>{
     res.send(`Welcome mr: ${username}`)
 })
 
+// make daynamic serarch api 
+app.get("/search" ,  (req,res)=>{
+    const keyword = req.query.keyword;
+    res.send(`sercing for ${keyword}`)
+})
 
 
 
