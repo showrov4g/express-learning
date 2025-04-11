@@ -1,45 +1,22 @@
 import express from "express";
-import router from "./route.js";
-
 
 const app = express();
-
 const PORT = 3000;
-
 
 // index route 
 app.get('/', (req, res) => {
-    res.send("hello ghosh")
-})
-
-app.use('/user', router);
-
-
-app.post("/users",express.json(), (req,res)=>{
-    const {name, email} = req.body;
-    res.json({
-        message: `User ${name} and email ${email} created successfully`
-    })
-})
-
-app.put("/users/:id", express.json(), (req,res)=>{
-    const userId = req.params.id;
-    const {name, email} = req.body;
-    res.json({
-        message: `user ${userId} updated to ${name} and email ${email}`
-    })
-})
+    res.send("hello ghosh");
+});
 
 
 
 
+// ✅ catch all invalid routes (fixed)
+app.use((req, res) => {
+    res.status(404).send("Sorry, this route is not found");
+});
 
-
-
-
-
-
-// ===============
+// server listen
 app.listen(PORT, () => {
-    console.log(`Server is running on PORT ${PORT}`)
-})
+    console.log(`Server is running on PORT ${PORT}`);
+});
