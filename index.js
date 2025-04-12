@@ -5,10 +5,6 @@ const PORT = 3000;
 
 // middlewares
 
-app.get("/error",()=>{
-   throw new Error("this is test error")
-})
-
 
 
 
@@ -18,7 +14,6 @@ app.get("/error",()=>{
 
 // index route 
 app.get('/', (req, res) => {
-    console.log("middle")
     res.send("hello ghosh");
 });
 
