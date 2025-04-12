@@ -1,15 +1,22 @@
-import express from "express";
+import express, { urlencoded } from "express";
 
 const app = express();
 const PORT = 3000;
 
-app.use(express.static('public'))
 
 
 // middlewares
 
+//routes
+
+app.post("/form", (req, res) => {
+
+    console.log(req.body);
+    console.log(req.file);
 
 
+    res.send(`form data reviced`)
+})
 
 
 
