@@ -1,23 +1,28 @@
 import express, { urlencoded } from "express";
+import mongoose from "mongoose";
+import { connectDB } from "./config/db.js";
+import { Person } from "./models/persons.js";
 
 const app = express();
 const PORT = 3000;
 
+
+await connectDB();
 
 
 // middlewares
 
 //routes
 
-app.post("/form", (req, res) => {
-
-    console.log(req.body);
-    console.log(req.file);
-
-
-    res.send(`form data reviced`)
+app.post("/person", express.json(), async(req, res) => {
+ 
+    const { email, name, age } = req.body;
+    const newPerson = new Person({
+        name, age, email
+    });
+    await newPerson.save();
+    res.send("person added");
 })
-
 
 
 
