@@ -3,6 +3,9 @@ import express from "express";
 const app = express();
 const PORT = 3000;
 
+app.use(express.static('public'))
+
+
 // middlewares
 
 
@@ -14,7 +17,8 @@ const PORT = 3000;
 
 // index route 
 app.get('/', (req, res) => {
-    res.send("hello ghosh");
+
+    res.send("hello express");
 });
 
 
