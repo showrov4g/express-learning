@@ -23,6 +23,17 @@ app.post("/person", express.json(), async(req, res) => {
     await newPerson.save();
     res.send("person added");
 })
+// put method update data in mongodb
+app.put("/person", express.json(), async(req, res) => {
+ 
+    const { email, name, age } = req.body;
+    const newPerson = new Person({
+        name, age, email
+    });
+    await newPerson.save();
+    res.send("person added");
+})
+
 
 
 
