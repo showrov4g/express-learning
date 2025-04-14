@@ -26,12 +26,19 @@ app.post("/person", async (req, res) => {
 // put method update data in mongodb
 app.put("/person", async (req, res) => {
 
-    const { name } = req.body;
+    const { name, age,id } = req.body;
     
-    const personData = await Person.find({name})
+    const personData = await Person.findByIdAndUpdate(id, {age:"28"});
+  
     console.log(personData);
     
     res.send("perosn Data fund");
+})
+
+// delete function make 
+
+app.delete("/peorson/:id",(req,res)=>{
+    
 })
 
 
