@@ -5,17 +5,17 @@ import { Person } from "./models/persons.js";
 
 const app = express();
 const PORT = 3000;
+app.use(express.json());
 
-
+// database connection 
 await connectDB();
-
 
 // middlewares
 
 //routes
 
-app.post("/person", express.json(), async(req, res) => {
- 
+app.post("/person", async (req, res) => {
+
     const { email, name, age } = req.body;
     const newPerson = new Person({
         name, age, email
@@ -24,14 +24,14 @@ app.post("/person", express.json(), async(req, res) => {
     res.send("person added");
 })
 // put method update data in mongodb
-app.put("/person", express.json(), async(req, res) => {
- 
-    const { email, name, age } = req.body;
-    const newPerson = new Person({
-        name, age, email
-    });
-    await newPerson.save();
-    res.send("person added");
+app.put("/person", async (req, res) => {
+
+    const { name } = req.body;
+    
+    const personData = await Person.find({name})
+    console.log(personData);
+    
+    res.send("perosn Data fund");
 })
 
 
