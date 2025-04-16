@@ -1,45 +1,16 @@
+import cookieParser from "cookie-parser";
 import express, { urlencoded } from "express";
-import mongoose from "mongoose";
-import { connectDB } from "./config/db.js";
-import { Person } from "./models/persons.js";
+
 
 const app = express();
 const PORT = 3000;
-app.use(express.json());
+app.use(cookieParser());
 
 // database connection 
-await connectDB();
 
 // middlewares
 
 //routes
-
-app.post("/person", async (req, res) => {
-
-    const { email, name, age } = req.body;
-    const newPerson = new Person({
-        name, age, email
-    });
-    await newPerson.save();
-    res.send("person added");
-})
-// put method update data in mongodb
-app.put("/person", async (req, res) => {
-
-    const { name, age,id } = req.body;
-    
-    const personData = await Person.findByIdAndUpdate(id, {age:"28"});
-  
-    console.log(personData);
-    
-    res.send("perosn Data fund");
-})
-
-// delete function make 
-
-app.delete("/peorson/:id",(req,res)=>{
-    
-})
 
 
 
@@ -47,12 +18,19 @@ app.delete("/peorson/:id",(req,res)=>{
 
 // index route 
 app.get('/', (req, res) => {
-
+    res.cookie('name',"express-app",{maxAge:360000});
     res.send("hello express");
 });
 
+app.get('/fetch',(req,res)=>{
+    console.log(req.cookies);
+    res.send('api called');
+})
 
-
+app.get('/remove',(req,res)=>{
+    res.clearCookie("name");
+    res.send("Clear Cookies");
+})
 
 
 // ✅ catch all invalid routes (fixed)
