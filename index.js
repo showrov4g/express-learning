@@ -8,7 +8,7 @@ const app = express();
 const PORT = 3000;
 app.use(cookieParser());
 app.use(session({
-    secret:"sample-secret",
+    secret: "sample-secret",
     resave: false,
     saveUninitialized: false,
 
@@ -28,12 +28,16 @@ const user = [];
 
 // index route 
 app.get('/', (req, res) => {
-    res.cookie('name',"express-app",{maxAge:360000});
+    res.cookie('name', "express-app", { maxAge: 360000 });
     res.send("hello express");
 });
 
-app.post("/regester",async(req,res)=>{
-
+app.post("/regester", async (req, res) => {
+    const { username, password } = req.body;
+    user.push({
+        username, password
+    })
+    res.send('user regestered')
 })
 
 
