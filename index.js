@@ -1,10 +1,20 @@
 import cookieParser from "cookie-parser";
 import express, { urlencoded } from "express";
+import session from "express-session";
+
 
 
 const app = express();
 const PORT = 3000;
 app.use(cookieParser());
+app.use(session({
+    secret:"sample-secret",
+    resave: false,
+    saveUninitialized: false,
+
+}));
+
+const user = [];
 
 // database connection 
 
@@ -22,15 +32,10 @@ app.get('/', (req, res) => {
     res.send("hello express");
 });
 
-app.get('/fetch',(req,res)=>{
-    console.log(req.cookies);
-    res.send('api called');
+app.post("/regester",async(req,res)=>{
+
 })
 
-app.get('/remove',(req,res)=>{
-    res.clearCookie("name");
-    res.send("Clear Cookies");
-})
 
 
 // ✅ catch all invalid routes (fixed)
