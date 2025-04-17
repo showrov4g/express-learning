@@ -1,75 +1,71 @@
+import { name } from "ejs";
 import express from "express";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+
 
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
 
-const users = []; // Fake in-memory user store
 
-// ✅ Index route
+//  Index route
 app.get('/', (req, res) => {
     res.send("Hello Express!");
 });
 
-// ✅ Register route
-app.post("/register", async (req, res) => {
-    const { username, password } = req.body;
+// get all product 
+app.get("/api/products", (req, res) => {
+    const products = [
+        {
+            id: 1,
+            name: "Laptop",
+            price: "1000",
+        }, {
+            id: 2,
+            name: "Mobile",
+            price: "1000",
+        }, {
+            id: 3,
+            name: "Charger",
+            price: "1000",
+        }
+    ]
+    res.status(200).json({ products })
+})
 
-    // Check if user already exists
-    const existingUser = users.find(u => u.username === username);
-    if (existingUser) {
-        return res.status(400).send("User already exists");
+//get a single product 
+app.get('/api/products/:id',(req,res)=>{
+    const products = [
+        {
+            id: 1,
+            name: "Laptop",
+            price: "1000",
+        }, {
+            id: 2,
+            name: "Mobile",
+            price: "1000",
+        }, {
+            id: 3,
+            name: "Charger",
+            price: "1000",
+        }
+    ]
+
+    const product = products.find(p =>p.id === Number(req.params.id));
+    if (!product) {
+        return res.status(404).json({message: "product not found"})
     }
+    res.status(200).json(product)
+})
 
-    const hashPassword = await bcrypt.hash(password, 10);
-    users.push({
-        username,
-        password: hashPassword,
-    });
+// create a new product 
 
-    res.send('User registered successfully');
-});
+app.post('/api/products',(req,res)=>{    
+    const newProduct = req.body;
+    newProduct.id = Date.now();
+    res.status(200).json(newProduct)
+})
 
-// ✅ Login route
-app.post("/login", async (req, res) => {
-    const { username, password } = req.body;
-    const user = users.find(u => u.username === username);
 
-    if (!user) {
-        return res.status(401).send('User not found');
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-        return res.status(401).send('Invalid credentials');
-    }
-
-    // Generate JWT
-    const token = jwt.sign({ username }, 'test#secret', { expiresIn: '1h' });
-
-    res.json({ token }); // Optional: `Bearer ${token}` for frontend use
-});
-
-// ✅ Protected route
-app.get('/dashboard', (req, res) => {
-    const authHeader = req.header('Authorization');
-
-    if (!authHeader) {
-        return res.status(401).send("Access token missing");
-    }
-
-    const token = authHeader.split(" ")[1]; // Remove "Bearer " part
-
-    try {
-        const decoded = jwt.verify(token, 'test#secret');
-        res.send(`Welcome ${decoded.username}`);
-    } catch (err) {
-        res.status(401).send("Invalid or expired token");
-    }
-});
 
 // ✅ Catch-all route
 app.use((req, res) => {
