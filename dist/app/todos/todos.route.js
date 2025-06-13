@@ -17,6 +17,7 @@ const express_1 = __importDefault(require("express"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const mongodb_1 = require("../../config/mongodb");
+const mongodb_2 = require("mongodb");
 const filePath = path_1.default.join(__dirname, "../db/todo.json");
 exports.todoRouter = express_1.default.Router();
 exports.todoRouter.get('/', (req, res) => {
@@ -45,4 +46,8 @@ exports.todoRouter.post('/create-todos', (req, res) => __awaiter(void 0, void 0,
 exports.todoRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     console.log(id, 24);
+    const db = yield mongodb_1.client.db("learningDb");
+    const collection = yield db.collection("todo");
+    const todo = yield collection.findOne({ _id: new mongodb_2.ObjectId(id) });
+    res.json(todo);
 }));
