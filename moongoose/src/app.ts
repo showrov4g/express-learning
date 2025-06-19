@@ -5,7 +5,8 @@ const app: Application = express();
 app.use(express.json());
 
 // schema 
-const noteSchema = new Schema({
+const noteSchema = new Schema(
+    {
     title: { type: String, required: true, trim: true },
     content: { type: String, },
     category: {
@@ -21,7 +22,12 @@ const noteSchema = new Schema({
         label: { type: String, require: true },
         color: { type: String, default: "gray" }
     }
-})
+},
+{
+    versionKey: false,
+    timestamps: true
+}
+)
 
 const Note = model("Note", noteSchema);
 
@@ -43,16 +49,30 @@ app.post("/notes/create-note", async (req: Request, res: Response) => {
     })
 })
 
-app.get("/notes/get-note", async (req: Request, res: Response) => {
+app.get("/notes/:noteId", async (req: Request, res: Response) => {
 
+    const noteId = req.params.noteId;
 
-
-    const note = await Note.find();
+    const note = await Note.findOne({title : "learningt express"});
 
 
     res.status(201).json({
         success: true,
         message: "Successfully created",
+        note
+    })
+})
+// ----------------
+
+app.patch("/notes/:noteId", async (req: Request, res: Response) => {
+    
+
+    const noteId = req.params.noteId;
+    const updatedBody = req.body;
+    const note = await Note.findByIdAndUpdate({_id:noteId}, updatedBody,{new: true});
+    res.status(201).json({
+        success: true,
+        message: "data has been updated",
         note
     })
 })
