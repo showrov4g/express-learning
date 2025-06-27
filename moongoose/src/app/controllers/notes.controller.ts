@@ -1,73 +1,94 @@
-import express, { Request, Response } from "express"
-import { Note } from "../models/notes.model"
+import express, { Request, Response } from 'express';
+import { Book } from '../models/book.model';
 
-export const notesRoutes = express.Router()
+export const bookRoutes = express.Router();
 
-notesRoutes.post('/create-note', async (req: Request, res: Response) => {
-
-    const body = req.body
-
-    //Approach - 1 of creating a data
-    // const myNote = new Note({
-    //     title: "Learning Node",
-    //     // tags: {
-    //     //     label: "database"
-    //     // }
-    // })
-
-    // await myNote.save()
-
-
-    //Approach - 2
-    const note = await Note.create(body)
-
+// 👉 POST: Create a new book
+bookRoutes.post('/create-book', async (req: Request, res: Response) => {
+  try {
+    const body = req.body;
+    const book = await Book.create(body);
     res.status(201).json({
-        success: true,
-        message: "Note created successfuly",
-        note
-    })
-})
-notesRoutes.get('/', async (req: Request, res: Response) => {
-    const notes = await Note.find()
+      success: true,
+      message: 'Book created successfully',
+      book
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
 
-    res.status(201).json({
-        success: true,
-        message: "Note created successfuly",
-        notes
-    })
-})
-notesRoutes.get('/:noteId', async (req: Request, res: Response) => {
-    const noteId = req.params.noteId
-    const note = await Note.findById(noteId)
+// 👉 GET: Get all books
+bookRoutes.get('/', async (req: Request, res: Response) => {
+  try {
+    const books = await Book.find();
+    res.status(200).json({
+      success: true,
+      message: 'Books fetched successfully',
+      books
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
 
-    res.status(201).json({
-        success: true,
-        message: "Note created successfuly",
-        note
-    })
-})
-notesRoutes.delete('/:noteId', async (req: Request, res: Response) => {
-    const noteId = req.params.noteId
-    const note = await Note.findByIdAndDelete(noteId)
-    // const note1 = await Note.findOneAndDelete({ _id: noteId })
-    // const note2 = await Note.deleteOne({ _id: noteId })
+// 👉 GET: Get a single book by ID
+bookRoutes.get('/:bookId', async (req: Request, res: Response) => {
+  try {
+    const bookId = req.params.bookId;
+    const book = await Book.findById(bookId);
+    res.status(200).json({
+      success: true,
+      message: 'Book fetched successfully',
+      book
+    });
+  } catch (error: any) {
+    res.status(404).json({
+      success: false,
+      message: 'Book not found'
+    });
+  }
+});
 
-    res.status(201).json({
-        success: true,
-        message: "Note updated successfuly",
-        note
-    })
-})
-notesRoutes.patch('/:noteId', async (req: Request, res: Response) => {
-    const noteId = req.params.noteId
+// 👉 PATCH: Update a book
+bookRoutes.patch('/:bookId', async (req: Request, res: Response) => {
+  try {
+    const bookId = req.params.bookId;
     const updatedBody = req.body;
-    const note = await Note.findByIdAndUpdate(noteId, updatedBody, { new: true, })
-    // const note = await Note.findOneAndUpdate({ _id: noteId }, updatedBody, { new: true, })
-    // const note = await Note.updateOne({ _id: noteId }, updatedBody, { new: true, })
+    const book = await Book.findByIdAndUpdate(bookId, updatedBody, { new: true });
+    res.status(200).json({
+      success: true,
+      message: 'Book updated successfully',
+      book
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
 
-    res.status(201).json({
-        success: true,
-        message: "Note updated successfuly",
-        note
-    })
-})
+// 👉 DELETE: Delete a book
+bookRoutes.delete('/:bookId', async (req: Request, res: Response) => {
+  try {
+    const bookId = req.params.bookId;
+    const book = await Book.findByIdAndDelete(bookId);
+    res.status(200).json({
+      success: true,
+      message: 'Book deleted successfully',
+      book
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
