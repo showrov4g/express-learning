@@ -1,18 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+import { useDispatch, useSelector } from 'react-redux'
 import './App.css'
+import { discernment, increment } from './redux/features/conuter/counterSlice'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+
+  const dispatch = useDispatch()
+  const {count} = useSelector((state)=> state.conuter)
+
+    const handleIncrement =()=>{
+      dispatch(increment())
+    }
+ const handleDiscrement = () =>{
+  dispatch(discernment())
+ }
 
   return (
     <>
       <div>
-        <h1> Learning Redux</h1>
-        <button>Increment</button>
-        <div>0</div>
-        <button>Discernment</button>
+        <h1 > Learning Redux</h1>
+        <button onClick={handleIncrement}>Increment</button>
+        <div>{count}</div>
+        <button onClick={handleDiscrement}>Discernment</button>
       </div>
     </>
   )
