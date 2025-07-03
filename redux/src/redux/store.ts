@@ -6,7 +6,7 @@ import taskReducer from "../redux/task/taskSlice"
 export const store = configureStore({
     reducer: {
         counter : counterSlice,
-        tasks: taskReducer
+        todo: taskReducer
     } 
 });
 
