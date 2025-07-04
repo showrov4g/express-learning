@@ -1,13 +1,25 @@
-import { UserAppSelector } from "@/redux/hook"
+import Taskcard from "@/components/module/Taskcard"
+import TaskModal from "@/components/module/TaskModal"
+import { userAppSelector } from "@/redux/hook"
 import { selectTask } from "@/redux/task/taskSlice"
 
 
-const {}= UserAppSelector(selectTask)
 
-const task = () => {
+
+
+const Task = () => {
+  const tasks =  userAppSelector(selectTask)
+
+
   return (
-    <div>task</div>
+    <div className="mx-auto max-w-7xl px-5 mt-20">
+      <TaskModal/>
+      {
+        tasks.map((task,index)=>(<Taskcard key={index} task={task}></Taskcard>))
+      }
+
+    </div>
   )
 }
 
-export default task
+export default Task

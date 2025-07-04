@@ -17,7 +17,7 @@ const initialState = {
             description: "this is task to do description",
             dueDate: "2020-30-20",
             isCompleted: false,
-            priority: "heigh",
+            priority: "low",
         },
         {
 
@@ -26,7 +26,7 @@ const initialState = {
             description: "this is task to do description",
             dueDate: "2020-30-20",
             isCompleted: false,
-            priority: "heigh",
+            priority: "high",
 
         }
     ]
