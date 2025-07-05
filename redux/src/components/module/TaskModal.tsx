@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useForm } from "react-hook-form"
+import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
@@ -21,26 +21,27 @@ import { Calendar } from "../ui/calendar"
 import { CalendarIcon, Link } from "lucide-react"
 import { useDispatch } from "react-redux"
 import { addTask } from "@/redux/task/taskSlice"
+import type { ITask } from "@/types"
 
 
 const TaskModal = () => {
     const dispatch = useDispatch()
 
     const form = useForm();
-    // const onSubmit = (data: any) => {
-    //     console.log(data);
-    //     dispatch(addTask(data))
-    // };
-    const onSubmit = (data: any) => {
-        const task = {
-            ...data,
-            dueDate: data.dueDate instanceof Date
-                ? data.dueDate.toISOString()
-                : data.dueDate,
-        };
-
-        dispatch(addTask(task));
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        console.log(data);
+        dispatch(addTask(data as ITask))
     };
+    // const onSubmit = (data: any) => {
+    //     const task = {
+    //         ...data,
+    //         dueDate: data.dueDate instanceof Date
+    //             ? data.dueDate.toISOString()
+    //             : data.dueDate,
+    //     };
+
+    //     dispatch(addTask(task));
+    // };
 
 
 
