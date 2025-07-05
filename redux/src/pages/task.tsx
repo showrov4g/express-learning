@@ -3,10 +3,6 @@ import TaskModal from "@/components/module/TaskModal"
 import { userAppSelector } from "@/redux/hook"
 import { selectTask } from "@/redux/task/taskSlice"
 
-
-
-
-
 const Task = () => {
   const tasks =  userAppSelector(selectTask)
 
